@@ -10,7 +10,7 @@ services:
       RUST_LOG_FORMAT: "devel"
     volumes:
       - ../../..:/root/build
-    working_dir: /root/build/prisma-rs
+    working_dir: /root/build/
     networks:
       - tests
 

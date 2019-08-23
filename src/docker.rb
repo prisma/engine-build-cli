@@ -61,7 +61,7 @@ class DockerCommands
       '-e', 'CC=gcc',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:alpine',
-      'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--manifest-path=prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
+      'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--release").puts!.run!.raise!
   end
 
   def self.rust_binary_zeit(context)
@@ -71,7 +71,7 @@ class DockerCommands
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:centos6-0.5',
-      'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
+      'cargo', 'build', "--release").puts!.run!.raise!
   end
 
   def self.rust_binary_lambda(context)
@@ -81,7 +81,7 @@ class DockerCommands
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:lambda-1.1',
-      'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
+      'cargo', 'build', "--release").puts!.run!.raise!
   end
 
   def self.rust_binary(context)
@@ -93,7 +93,7 @@ class DockerCommands
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
       '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
       "prismagraphql/build-image:debian",
-      'cargo', 'build', "--manifest-path=prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
+      'cargo', 'build', "--release").puts!.run!.raise!
   end
 
   def self.rust_binary_windows(context)
@@ -105,6 +105,6 @@ class DockerCommands
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
       '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
       "prismagraphql/build-image:debian",
-      'cargo', 'build', "--manifest-path=prisma-rs/Cargo.toml", "--release", "--target", "x86_64-pc-windows-gnu").puts!.run!.raise!
+      'cargo', 'build', "--release", "--target", "x86_64-pc-windows-gnu").puts!.run!.raise!
   end
 end

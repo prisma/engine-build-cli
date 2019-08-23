@@ -31,22 +31,22 @@ def rust_binary(context, platform)
   if platform == "alpine"
     artifact_paths.push(artifact_paths_for(context, "linux-musl-libssl1.1.0"))
     DockerCommands.rust_binary_musl(context)
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/x86_64-unknown-linux-musl/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Dir.chdir("#{context.server_root_path}/target/x86_64-unknown-linux-musl/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "debian"
     artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.1.0"))
     DockerCommands.rust_binary(context)
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "zeit"
     artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.0.1"))
     DockerCommands.rust_binary_zeit(context)
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "lambda"
     artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.0.2"))
     DockerCommands.rust_binary_lambda(context)
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "native"
     artifact_paths.push(artifact_paths_for(context, "darwin"))
@@ -54,16 +54,16 @@ def rust_binary(context, platform)
     Command.new("rustup", "update").puts!.run!.raise!
 
     puts "Cleaning up..."
-    Command.new("cargo", "clean", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml").puts!.run!.raise!
+    Command.new("cargo", "clean", "--manifest-path=#{context.server_root_path}/Cargo.toml").puts!.run!.raise!
 
     puts "Building..."
-    Command.new("cargo", "build", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Command.new("cargo", "build", "--manifest-path=#{context.server_root_path}/Cargo.toml", "--release").puts!.run!.raise!
+    Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "windows"
     artifact_paths.push(artifact_paths_for(context, "windows"))
     DockerCommands.rust_binary_windows(context)
-    Dir.chdir("#{context.server_root_path}/prisma-rs/target/x86_64-pc-windows-gnu/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+    Dir.chdir("#{context.server_root_path}/target/x86_64-pc-windows-gnu/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
     upload_artifacts = ["prisma.exe", "migration-engine.exe", "prisma-fmt.exe"]
   else
     raise "Unsupported platform #{platform}"

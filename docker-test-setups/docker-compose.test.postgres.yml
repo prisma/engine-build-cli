@@ -38,7 +38,7 @@ services:
       IS_BUILDKITE: "1"
     volumes:
       - ../../..:/root/build
-    working_dir: /root/build/prisma-rs
+    working_dir: /root/build/
     networks:
       - tests
 

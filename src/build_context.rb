@@ -22,50 +22,6 @@ class BuildContext
     Tag.new(filtered.first)
   end
 
-  def get_last_docker_tag_for(tag_prefix)
-    uri = URI.parse("https://registry.hub.docker.com/v2/repositories/prismagraphql/prisma/tags/")
-    tags = []
-    depth = 3 # Pagination depth max to retrieve tags
-
-    loop do
-      response = Net::HTTP.get_response(uri)
-      code = response.code.to_i
-
-      if code >= 200 && code < 300
-        tags_json = JSON.parse(response.body)
-
-        if tags_json['next'] != nil && depth > 0
-          depth -= 1
-          uri = URI.parse(tags_json['next'])
-          tags_json['results'].each do |tag|
-            tags.push tag['name']
-          end
-        else
-          break
-        end
-
-      elsif code == 301
-        uri = URI.parse(response.header['location'])
-
-      else
-        response.each_header do |key, value|
-          p "#{key} => #{value}"
-        end
-        raise "Failed to fetch docker tags for Prisma: #{response.code} #{response.body}"
-      end
-    end
-
-    tag = tags.find do |tag|
-      tag != "latest" && !tag.include?("heroku") && tag.include?(tag_prefix)
-    end
-
-    if tag != nil
-      Tag.new(tag)
-    else
-      nil
-    end
-  end
-
   def cli_invocation_path
     "#{server_root_path}/.buildkite/pipeline.sh"
   end
@@ -76,19 +32,6 @@ class BuildContext
 
   def is_nix?
     os == :macosx || os == :unix || os == :linux
-  end
-
-  def should_build?
-    (server_changed? || tag != nil) && buildkite_build?
-  end
-
-  def server_changed?
-    if commit.nil?
-      false
-    else
-      res = Command.new("git", "diff", "--exit-code", "--name-only", "#{commit}", "#{commit}~1", "--", ".").puts!.run!
-      !res.success?
-    end
   end
 
   def buildkite_build?

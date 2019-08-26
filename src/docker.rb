@@ -107,4 +107,16 @@ class DockerCommands
       "prismagraphql/build-image:debian",
       'cargo', 'build', "--release", "--target", "x86_64-pc-windows-gnu").puts!.run!.raise!
   end
+
+  def self.rust_binary_ubuntu16(context)
+    Command.new("docker", "run",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=250000",
+      "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
+      '-w', '/root/build',
+      '-v', "#{context.server_root_path}:/root/build",
+      '-v', '/var/run/docker.sock:/var/run/docker.sock',
+      '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
+      "prismagraphql/build-image:ubuntu16.04",
+      'cargo', 'build', "--release").puts!.run!.raise!
+  end
 end

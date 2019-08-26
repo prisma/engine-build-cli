@@ -48,6 +48,11 @@ def rust_binary(context, platform)
     DockerCommands.rust_binary_lambda(context)
     Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
+  elsif platform == "ubuntu16"
+    artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.0.2-ubuntu1604"))
+    DockerCommands.rust_binary_ubuntu16(context)
+    Dir.chdir("#{context.server_root_path}/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+
   elsif platform == "native"
     artifact_paths.push(artifact_paths_for(context, "darwin"))
     puts "Updating rust..."

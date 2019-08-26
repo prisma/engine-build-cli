@@ -79,7 +79,11 @@ class PipelineRenderer
 
       PipelineStep.new
         .label(":rust: Build & Publish :windows:")
-        .command("./.buildkite/pipeline.sh rust-binary windows")
+        .command("./.buildkite/pipeline.sh rust-binary windows"),
+
+      PipelineStep.new
+        .label(":rust: Build & Publish :ubuntu: 16 LTS")
+        .command("./.buildkite/pipeline.sh rust-binary ubuntu16")
     ]
   end
 end

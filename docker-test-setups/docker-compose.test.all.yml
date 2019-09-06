@@ -10,6 +10,7 @@ services:
       RUST_LOG_FORMAT: "devel"
     volumes:
       - ../../..:/root/build
+      - ~/.cargo:/root/.cargo
     working_dir: /root/build/
     networks:
       - tests

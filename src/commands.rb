@@ -23,7 +23,7 @@ end
 
 def rust_binary(context, platform)
   # Artifact whitelist. All named will be zipped and uploaded
-  upload_artifacts = ["prisma", "migration-engine", "prisma-fmt"]
+  upload_artifacts = ["prisma", "migration-engine", "introspection-engine", "prisma-fmt"]
 
   # Upload folder paths in s3
   artifact_paths = []

@@ -8,8 +8,10 @@ services:
       RUST_BACKTRACE: "1"
       IS_BUILDKITE: "1"
       RUST_LOG_FORMAT: "devel"
+      CARGO_TARGET_DIR: ../cached-cargo-target
     volumes:
       - ../../..:/root/build
+      - ~/cached-cargo-target:/root/cached-cargo-target
     working_dir: /root/build/
     networks:
       - tests

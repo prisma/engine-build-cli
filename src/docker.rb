@@ -45,7 +45,6 @@ class DockerCommands
       '-v', "#{context.server_root_path}:/root/build",
       '-v', "#{context.cargo_target_base_dir}/debian:/root/cargo-cache",
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
-      '-v', "#{File.expand_path('~')}/cargo_cache/debian:/root/cargo-cache",
       "prismagraphql/build-image:debian",
       'cargo', 'build', "--release").puts!.run!.raise!
   end

@@ -14,7 +14,12 @@ class BuildContext
     @commit = ENV["BUILDKITE_COMMIT"] || nil
     @last_git_tag = get_last_git_tag
     @server_root_path = find_server_root
-    @cargo_target_base_dir = "#{File.expand_path('~')}/cargo-cache"
+
+    begin
+      @cargo_target_base_dir = "#{File.expand_path('~')}/cargo-cache"
+    rescue
+      @cargo_target_base_dir = "/cargo-cache"
+    end
   end
 
   def get_last_git_tag

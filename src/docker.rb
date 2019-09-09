@@ -79,6 +79,7 @@ class DockerCommands
       '-w', '/root/build',
       "-e", "SQLITE_MAX_VARIABLE_NUMBER=250000",
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
+      "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
       '-v', "#{context.cargo_target_base_dir}/lambda:/root/cargo-cache",
       'prismagraphql/build-image:lambda-1.1',

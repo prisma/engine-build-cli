@@ -43,9 +43,9 @@ class DockerCommands
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
       "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/debian:/root/cargo-cache",
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
-      '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
+      '-v', "#{File.expand_path('~')}/cargo_cache/debian:/root/cargo-cache",
       "prismagraphql/build-image:debian",
       'cargo', 'build', "--release").puts!.run!.raise!
   end
@@ -57,7 +57,7 @@ class DockerCommands
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
       '-e', 'CC=gcc',
       "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/musl:/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:alpine',
       'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--release").puts!.run!.raise!
@@ -70,7 +70,7 @@ class DockerCommands
       '-w', '/root/build',
       "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/centos:/root/cargo-cache",
       'prismagraphql/build-image:centos6-0.5',
       'cargo', 'build', "--release").puts!.run!.raise!
   end
@@ -81,7 +81,7 @@ class DockerCommands
       "-e", "SQLITE_MAX_VARIABLE_NUMBER=250000",
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
       '-v', "#{context.server_root_path}:/root/build",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/lambda:/root/cargo-cache",
       'prismagraphql/build-image:lambda-1.1',
       'cargo', 'build', "--release").puts!.run!.raise!
   end
@@ -93,9 +93,8 @@ class DockerCommands
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
       "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/windows:/root/cargo-cache",
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
-      '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
       "prismagraphql/build-image:debian",
       'cargo', 'build', "--release", "--target", "x86_64-pc-windows-gnu").puts!.run!.raise!
   end
@@ -107,9 +106,8 @@ class DockerCommands
       "-e", "SQLITE_MAX_EXPR_DEPTH=10000",
       "-e", "CARGO_TARGET_DIR=/root/cargo-cache",
       '-v', "#{context.server_root_path}:/root/build",
-      '-v', "#{context.find_cargo_target_dir}:/root/cargo-cache",
+      '-v', "#{context.cargo_target_base_dir}/ubuntu:/root/cargo-cache",
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
-      '-v', "#{File.expand_path('~')}/cargo_cache:/root/cargo_cache",
       "prismagraphql/build-image:ubuntu16.04",
       'cargo', 'build', "--release").puts!.run!.raise!
   end

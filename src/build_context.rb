@@ -6,7 +6,7 @@ require 'json'
 require_relative './command'
 
 class BuildContext
-  attr_accessor :branch, :tag, :commit, :last_git_tag, :server_root_path
+  attr_accessor :branch, :tag, :commit, :last_git_tag, :server_root_path, :cargo_target_base_dir
 
   def initialize
     @branch = ENV["BUILDKITE_BRANCH"] || nil
@@ -14,7 +14,7 @@ class BuildContext
     @commit = ENV["BUILDKITE_COMMIT"] || nil
     @last_git_tag = get_last_git_tag
     @server_root_path = find_server_root
-    @cargo_dir = "#{File.expand_path('~')}/cached-cargo-target"
+    @cargo_target_base_dir = "#{File.expand_path('~')}/cargo-cache"
   end
 
   def get_last_git_tag
@@ -68,10 +68,6 @@ class BuildContext
   # We assume that we always run in the server root already (see cli.rb chdir)
   def find_server_root
     Pathname.new(Dir.pwd)
-  end
-
-  def find_cargo_target_dir
-    @cargo_dir
   end
 end
 

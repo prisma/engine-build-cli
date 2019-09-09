@@ -14,6 +14,7 @@ class BuildContext
     @commit = ENV["BUILDKITE_COMMIT"] || nil
     @last_git_tag = get_last_git_tag
     @server_root_path = find_server_root
+    @cargo_dir = File.expand_path(ENV['CARGO_TARGET_DIR'])
   end
 
   def get_last_git_tag
@@ -67,6 +68,10 @@ class BuildContext
   # We assume that we always run in the server root already (see cli.rb chdir)
   def find_server_root
     Pathname.new(Dir.pwd)
+  end
+
+  def find_cargo_target_dir
+    @cargo_dir
   end
 end
 

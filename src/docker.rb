@@ -13,7 +13,6 @@ class DockerCommands
   def self.run_rust_tests(context)
     compose_flags = ["--file", "#{context.server_root_path}/.buildkite/engine-build-cli/docker-test-setups/docker-compose.test.all.yml"]
     Command.new("docker-compose", *compose_flags, "up", "-d", "test-db-postgres", "test-db-mysql-5-7", "test-db-mysql-8-0").puts!.run!.raise!
-    Command.new("docker-compose", *compose_flags, "up", "test-db-mysql-8-0").puts!.run!.raise!
 
     sleep(10)
 

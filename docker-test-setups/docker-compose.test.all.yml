@@ -55,6 +55,7 @@ services:
       - "3307:3306"
     networks:
       - tests
+    tmpfs: /var/lib/mysql8
 
 networks:
   tests:

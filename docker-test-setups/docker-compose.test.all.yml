@@ -29,7 +29,7 @@ services:
       - tests
     tmpfs: /pgtmpfs
 
-  test-db-mysql:
+  test-db-mysql-5-7:
     image: mysql:5.7
     command: mysqld
     restart: always
@@ -39,6 +39,20 @@ services:
       MYSQL_DATABASE: prisma
     ports:
       - "3306:3306"
+    networks:
+      - tests
+    tmpfs: /var/lib/mysql
+
+  test-db-mysql-8-0:
+    image: mysql:8.0
+    command: mysqld
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: prisma
+      MYSQL_DATABASE: prisma
+    ports:
+      - "3307:3306"
     networks:
       - tests
     tmpfs: /var/lib/mysql

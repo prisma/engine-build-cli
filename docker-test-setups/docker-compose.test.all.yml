@@ -13,8 +13,6 @@ services:
       - ../../..:/root/build
       - ~/cached-cargo-target:/root/cached-cargo-target
     working_dir: /root/build/
-    networks:
-      - tests
 
   test-db-postgres:
     image: postgres:10.3
@@ -25,8 +23,6 @@ services:
       PGDATA: "/pgtmpfs"
     ports:
       - "5432:5432"
-    networks:
-      - tests
     tmpfs: /pgtmpfs
 
   test-db-mysql-5-7:
@@ -39,8 +35,6 @@ services:
       MYSQL_DATABASE: prisma
     ports:
       - "3306:3306"
-    networks:
-      - tests
     tmpfs: /var/lib/mysql
 
   test-db-mysql-8-0:
@@ -53,9 +47,4 @@ services:
       MYSQL_DATABASE: prisma
     ports:
       - "3307:3306"
-    networks:
-      - tests
     tmpfs: /var/lib/mysql8
-
-networks:
-  tests:

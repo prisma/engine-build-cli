@@ -50,7 +50,7 @@ class PipelineRenderer
 
         PipelineStep.new
           .label(":mysql: connector-test-kit mysql 5.7")
-          .command("./.buildkite/pipeline.sh connector-test mysql")
+          .command("./.buildkite/pipeline.sh connector-test mysql"),
 
         PipelineStep.new
           .label(":mysql: connector-test-kit mysql 8.0")

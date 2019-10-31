@@ -13,6 +13,11 @@ class PipelineStep
     self
   end
 
+  def trigger!(pipeline)
+    @trigger = pipeline
+    self
+  end
+
   def block!(label)
     @label = label
     @block = true
@@ -35,7 +40,7 @@ class PipelineStep
   end
 
   def branches(b)
-    @branches = b
+    @branches = [*b]
     self
   end
 
@@ -48,20 +53,31 @@ class PipelineStep
       return " " * indent + "- block: \"#{@label}\""
     end
 
-    rendered = [
-      "- label: \"#{@label}\"",
-      "  command: #{@command}"
-    ]
-
-    unless @branches.empty?
-      rendered.push "  branches: #{@branches.join(' ')}"
-    end
-
-    unless @queue.nil?
-      rendered += [
-        "  agents:",
-        "    queue: #{@queue}"
+    if @trigger
+      rendered = [
+        "- trigger: \"#{@trigger}\"",
+        "  label: \"#{@label}\""
       ]
+
+      unless @branches.empty?
+        rendered.push "  branches: #{@branches.join(' ')}"
+      end
+    else
+      rendered = [
+        "- label: \"#{@label}\"",
+        "  command: #{@command}"
+      ]
+
+      unless @branches.empty?
+        rendered.push "  branches: #{@branches.join(' ')}"
+      end
+
+      unless @queue.nil?
+        rendered += [
+          "  agents:",
+          "    queue: #{@queue}"
+        ]
+      end
     end
 
     rendered.map { |render| " " * indent + render }.join("\n")

@@ -30,7 +30,9 @@ class PipelineRenderer
   def collect_steps
     [ rust_tests,
       block_step,
-      release_rust_artifacts
+      release_rust_artifacts,
+      @@wait_step,
+      trigger_cli_build
     ].flatten
   end
 
@@ -89,5 +91,12 @@ class PipelineRenderer
         .label(":rust: Build & Publish :ubuntu: 16 LTS")
         .command("./.buildkite/pipeline.sh rust-binary ubuntu16")
     ]
+  end
+
+  def trigger_cli_build
+    PipelineStep.new
+        .label("Trigger CLI build")
+        .trigger!("prisma2-cli-publish")
+        .branches("master")
   end
 end

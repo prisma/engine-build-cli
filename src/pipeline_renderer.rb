@@ -66,9 +66,9 @@ class PipelineRenderer
         .label(":rust: Build & Publish :linux: glibc")
         .command("./.buildkite/pipeline.sh rust-binary debian"),
 
-      PipelineStep.new
-        .label(":rust: Build & Publish :linux: musl")
-        .command("./.buildkite/pipeline.sh rust-binary alpine"),
+      # PipelineStep.new
+      #   .label(":rust: Build & Publish :linux: musl")
+      #   .command("./.buildkite/pipeline.sh rust-binary alpine"),
 
       PipelineStep.new
         .label(":rust: Build & Publish :linux: zeit now")
